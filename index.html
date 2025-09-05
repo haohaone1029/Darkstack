@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Deface-style Landing Page v4</title>
+  <style>
+    :root{
+      --bg:#000;
+      --fg:#d7ffd9;
+      --accent:#00ff88;
+      --danger:#ff3b3b;
+    }
+    html,body{
+      margin:0; height:100%; overflow:hidden;
+      font-family:ui-monospace,Consolas,monaco,"SFMono-Regular",Menlo,monospace;
+      background:var(--bg); color:var(--fg);
+    }
+    canvas#matrix{position:fixed; inset:0; z-index:0;}
+    .overlay{position:fixed; inset:0; background:#000; display:flex; align-items:center; justify-content:center; z-index:10;}
+    .overlay h1{color:#0f0; font-size:clamp(28px,6vw,60px); white-space:pre;}
+    .hidden{display:none;}
+    .wrap{position:relative; z-index:2; display:grid; place-items:center; min-height:100vh; padding:20px;}
+    .card{
+      width:min(900px,95vw);
+      padding:24px; border:2px solid rgba(0,255,136,.35);
+      border-radius:16px; background:rgba(0,0,0,.65);
+      box-shadow:0 0 28px rgba(0,255,136,.35);
+    }
+    .title{
+      font-size:clamp(28px,6vw,64px);
+      font-weight:900; text-align:center;
+      color:var(--accent);
+      text-shadow:0 0 10px rgba(0,255,136,.5);
+    }
+    .subtitle{text-align:center; margin:10px 0 20px; color:#7efca4;}
+
+    /* chữ chạy cảnh báo */
+    .marquee{
+      width:100%; overflow:hidden; white-space:nowrap;
+      margin:15px 0;
+      border-top:1px dashed rgba(0,255,136,.35);
+      border-bottom:1px dashed rgba(0,255,136,.35);
+    }
+    .marquee span{
+      display:inline-block; padding-left:100%;
+      animation:scroll 12s linear infinite;
+      color:#0f0;
+      font-size:14px;
+    }
+    @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+
+    /* box info */
+    .infoBox{
+      margin:20px auto; padding:12px;
+      border:1px dashed rgba(0,255,136,.35);
+      border-radius:8px; text-align:center;
+      color:#aaffcc; font-size:14px;
+    }
+
+    /* quote */
+    .quote{
+      margin:15px 0; font-style:italic;
+      color:#93ffb0; text-align:center;
+      animation:fade 5s ease-in-out infinite alternate;
+      font-size:14px;
+    }
+    @keyframes fade{from{opacity:.3}to{opacity:1}}
+
+    /* ASCII art */
+    pre{
+      padding:18px; border-radius:12px;
+      border:1px dashed rgba(0,255,136,.35);
+      background:rgba(0,0,0,.5); color:#a8ffbf;
+      max-height:40vh; overflow:auto;
+      font-size:12px; text-align:center;
+    }
+
+    /* buttons */
+    .btns{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px;}
+    .btn{
+      padding:10px 16px; border-radius:8px;
+      border:1px solid rgba(0,255,136,.35);
+      background:rgba(0,0,0,.4); color:var(--fg);
+      cursor:pointer; font-size:14px;
+    }
+    .btn:hover{box-shadow:0 0 20px rgba(0,255,136,.3);}
+    .foot{text-align:center; margin-top:16px; font-size:12px; color:#88bb99;}
+
+    /* theme danger */
+    body.danger{--accent:#ff4444; --fg:#ffdada;}
+    body.danger .card{border-color:rgba(255,0,0,.35); box-shadow:0 0 28px rgba(255,0,0,.3);}
+    body.danger .title{color:var(--danger); text-shadow:0 0 12px rgba(255,0,0,.5);}
+    body.danger .btn{border-color:rgba(255,0,0,.35);}
+  </style>
+  <!-- figlet.js để sinh ASCII art -->
+  <script src="https://unpkg.com/figlet@1.5.2/umd/figlet.min.js"></script>
+</head>
+<body>
+  <!-- matrix background -->
+  <canvas id="matrix"></canvas>
+
+  <!-- intro overlay -->
+  <div class="overlay" id="overlay">
+    <h1 id="introText"></h1>
+  </div>
+
+  <div class="wrap hidden" id="content">
+    <section class="card">
+      <h1 class="title" id="pageTitle">HACKED BY DARKSTACK</h1>
+      <div class="subtitle">(Deface Website - Darkstack)</div>
+
+      <!-- chữ chạy -->
+      <div class="marquee">
+        <span>⚠️ SYSTEM COMPROMISED ⚠️ | DARKSTACK TEAM ⚠️</span>
+      </div>
+
+      <!-- info box -->
+      <div class="infoBox">
+        <p><b>TEAM:</b> Darkstack</p>
+        <p><b>CONTACT:</b> Telegram @Darkstack | Email: darkstack@gmail.com</p>
+      </div>
+
+      <!-- quote -->
+      <blockquote class="quote">
+        "We are legion. We do not forgive. We do not forget."
+      </blockquote>
+
+      <!-- ASCII art -->
+      <pre id="asciiArt">
+  ▄████▄   ▄▄▄       ██▀███   ██ ▄█▀▄▄▄▄      ▄▄▄   ▄████▄   ██ ▄█▀
+ ▒██▀ ▀█  ▒████▄    ▓██ ▒ ██▒ ██▄█▒▒████▄   ▄████▄ ▒██▀ ▀█   ██▄█▒ 
+ ▒▓█    ▄ ▒██  ▀█▄  ▓██ ░▄█ ▒▓███▄ ▒██  ▀█▄▒██▀ ▀█ ▒▓█    ▄ ▓███▄░ 
+ ▒▓▓▄ ▄██▒░██▄▄▄▄██ ▒██▀▀█▄  ▓██ █▄░██▄▄▄▄█░██▄▄▄▄█▒▓▓▄ ▄██▒▓██ █▄ 
+ ▒ ▓███▀ ░ ▓█   ▓██▒░██▓ ▒██▒▒██▒ █▄▓█   ▓██▒▓█   ▓██▒ ▓███▀ ░▒██▒ █▄
+ ░ ░▒ ▒  ░ ▒▒   ▓▒█░░ ▒▓ ░▒▓░▒ ▒▒ ▓▒▒▒   ▓▒█░▒▒   ▓▒█░ ░▒ ▒  ░▒ ▒▒ ▓▒
+   ░  ▒     ▒   ▒▒ ░  ░▒ ░ ▒░░ ░▒ ▒░ ▒   ▒▒ ░ ▒   ▒▒ ░ ░  ▒   ░ ░▒ ▒░
+ ░          ░   ▒     ░░   ░ ░ ░░ ░  ░   ▒    ░   ▒  ░        ░ ░░ ░ 
+ ░ ░            ░  ░   ░     ░  ░        ░  ░     ░  ░ ░      ░  ░   
+      </pre>
+
+      <!-- buttons -->
+      <div class="btns">
+        <button class="btn" id="btnCopy">Copy Thông Báo</button>
+        <button class="btn" id="btnTheme">Đổi Theme</button>
+        <button class="btn" id="btnRename">Đổi Tên</button>
+      </div>
+
+      <div class="foot">© 2025 DARKSTACK | TRẦN HÀO DEV</div>
+    </section>
+  </div>
+
+<script>
+/* ========== INTRO TYPEWRITER ========== */
+const intro = "ACCESS DENIED\nPress OK to continue...";
+let idx=0;
+const introEl=document.getElementById("introText");
+function typeIntro(){
+  if(idx<intro.length){
+    introEl.textContent += intro[idx];
+    idx++;
+    setTimeout(typeIntro,50);
+  }else{
+    setTimeout(()=>{
+      if(confirm("Bạn có muốn tiếp tục truy cập?")){
+        document.getElementById("overlay").classList.add("hidden");
+        document.getElementById("content").classList.remove("hidden");
+      }else{
+        location.href="https://google.com";
+      }
+    },800);
+  }
+}
+typeIntro();
+
+/* ========== COPY BUTTON ========== */
+document.getElementById("btnCopy").addEventListener("click", async ()=>{
+  const txt=document.querySelector("pre").innerText;
+  try{
+    await navigator.clipboard.writeText(txt);
+    alert("Đã copy!");
+  }catch{ alert("Copy thất bại!"); }
+});
+
+/* ========== THEME TOGGLE ========== */
+document.getElementById("btnTheme").addEventListener("click",()=>{
+  document.body.classList.toggle("danger");
+});
+
+/* ========== RENAME BUTTON + ASCII ========== */
+document.getElementById("btnRename").addEventListener("click",()=>{
+  const newName=prompt("Nhập tên mới:", "HACKED BY DARKSTACK");
+  if(newName && newName.trim()!==""){
+    document.getElementById("pageTitle").textContent=newName;
+    // sinh ASCII art bằng figlet
+    figlet.text(newName, { font: "Standard" }, function(err, data){
+      if(!err){
+        document.getElementById("asciiArt").textContent=data;
+      }
+    });
+  }
+});
+
+/* ========== MATRIX BACKGROUND ========== */
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+let W,H,columns,drops,letters,fontSize=16;
+
+function resize(){
+  W=canvas.width=window.innerWidth;
+  H=canvas.height=window.innerHeight;
+  columns=Math.floor(W/fontSize);
+  drops=Array(columns).fill(1);
+}
+window.addEventListener("resize",resize);
+
+letters="01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&*@".split("");
+resize();
+
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.08)";
+  ctx.fillRect(0,0,W,H);
+  ctx.fillStyle="#0f0";
+  ctx.font=fontSize+"px monospace";
+  for(let i=0;i<drops.length;i++){
+    const text=letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    if(drops[i]*fontSize>H && Math.random()>0.975){
+      drops[i]=0;
+    }
+    drops[i]++;
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
